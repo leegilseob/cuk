@@ -40,7 +40,7 @@ def calc_distance(a, b):
         # print(matrix,'----------끝')
     return matrix[a_len][b_len]
     
-class LevenshteinChatBot:
+class LevenshteinChatBot:    
     def __init__(self, filepath):
         self.questions, self.answers = self.load_data(filepath)
 
@@ -51,20 +51,21 @@ class LevenshteinChatBot:
         return questions, answers
 
     def find_best_answer(self, input_sentence):
-        best_point = 100
-        best_point_index = 0
-        index = 0
+        best_point = 100        # 초기값이 높게 셋팅한다.(낫을수록 정확도가 높다)
+        best_point_index = 0    # 가장 점수가 낮은 index를 0으로 초기화 한다.
+        index = 0               # 초기값 
         
-        for ques in self.questions:            
-            point = calc_distance(input_sentence, ques)            
+        for ques in self.questions:  # 질문열의 수 만큼 반복
+            point = calc_distance(input_sentence, ques)  # 입력값과 질문의 레벤슈타인 거리를 계산한다.
             #print('best_point : ', best_point, ', point : ', point, 'index : ', index,'[', ques, ']', input_sentence)
-            if point == 0:
+            if point == 0: # 점수가 0 이면 현재 index의 답변을 선택하고 중단한다.
                 best_point_index = index
-            elif point < best_point:
+                break
+            elif point < best_point: # 기존 가장 좋은 점수와 비교하여 더 좋으면 값을 변경한다.
                 best_point = point
                 best_point_index = index
                 
-            index += 1
+            index += 1 # 현재 index를 증가한다.
         
         #print('best_point_index : ', best_point_index)
         return self.answers[best_point_index]
